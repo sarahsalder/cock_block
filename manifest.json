@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "Block",
+  "description": "This extension deletes unwanted messages from your OkCupid inbox.",
+  "version": "1.0",
+
+  "content_scripts": [
+    {
+      "matches": ["http://www.okcupid.com/messages"],
+      "js": ["jquery.js", "hideMessages.js", "popup.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "rooster.png",
+    "default_popup": "popup.html",
+    "default_title": "Cock Block"
+  },
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
+}

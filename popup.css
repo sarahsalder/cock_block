@@ -1,0 +1,26 @@
+
+input[type="text"] {
+    background: white;
+    border: 1px solid #ffe07c;
+    height: 1.8em;
+    width: 100%;
+    
+}
+
+input[type="text"]:focus {
+    outline: 0;
+    border: 1px solid #f69a39;    
+}
+
+.addToListForm {
+ 
+}
+
+.addToListForm label {
+  display: none;
+}
+
+.input {
+    background: none;
+
+}

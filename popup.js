@@ -1,13 +1,43 @@
 $(document).ready(function() {
 
-    $('.listItemInput').focus(); //focus tell us what selector the code is reference
-    chrome.storage.sync.set({'item': []}, function() {} );
 
+    var loadData = function(data) { 
+        previousEntries = data["item"];
+        var arrayLength = previousEntries.length;
+ 
+    
+        for (var i = 0; i < arrayLength; i++) {
+            console.log(previousEntries[i]);
+            $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ previousEntries[i] +'</div>'); 
+        }
+
+    }
+
+    //load previous entries from chrome storage
+    var previousEntries;
+    chrome.storage.sync.get(null, loadData);
+    
+
+
+
+
+     
+
+    //focus tell us what selector the code is reference
+    $('.listItemInput').focus(); 
     $(document)
     // Add to list
     .on('click', '.addToList', function() {
         var itemToAdd = $('input[name="listItemInput"]').val().trim(); 
             $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ itemToAdd +'</div>'); 
+            
+        //if storage 'item' is undefined, set it to an empty array
+        chrome.storage.sync.get(null, function(data) {
+          if (data["item"] == undefined);
+            chrome.storage.sync.set({'item': []}, function() {} );
+        });
+
+        //add element to 'item'
             var oldItems;
             chrome.storage.sync.get(null, function(data) { 
                 oldItems = data["item"];

@@ -5,9 +5,7 @@ $(document).ready(function() {
         previousEntries = data["item"];
         var arrayLength = previousEntries.length;
  
-    
         for (var i = 0; i < arrayLength; i++) {
-            console.log(previousEntries[i]);
             $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ previousEntries[i] +'</div>'); 
         }
 
@@ -19,11 +17,6 @@ $(document).ready(function() {
     
 
 
-
-
-     
-
-    //focus tell us what selector the code is reference
     $('.listItemInput').focus(); 
     $(document)
     // Add to list
@@ -49,13 +42,41 @@ $(document).ready(function() {
    
     
     $(document)
-    // Remove from list
+    // Remove from list and 
     .on('change', '.item', function() { 
         if( $(this).is(':checked') ){
+
             var parentElem = $(this).parent(); 
+                var string = this.nextSibling.data;
+
+                var oldItems;
+                chrome.storage.sync.get(null, function(update) {
+                    oldItems = update["item"];
+                    for (var i = 0; i <= oldItems.length - 1; i++) {
+                        if(oldItems[i] === string ) {
+                            console.log(string);
+                            oldItems.splice(i, 1);
+                            console.log(oldItems);
+                            chrome.storage.sync.set({'item': oldItems}, function() {});
+                        } 
+                    }
+                    
+            });
+
                 parentElem.remove();
+
         }
     });
+
+    // logging this prints 
+    // "[input.item, context: input.item]" 
+    // And within this item I can find the string I need
+    // by opening up nextSibling and then finding data which nested beneath that, 
+    // data is associated with my desired string
+    // But, I cannot figure out how to actually reference this information with Javascript.
+    // Am I going about this the best way? Is there a way dive into this nesting?
+    // ($(this.nextSibling.data.keys));
+
     
     $('.addToListForm').submit( function(e) {
         e.preventDefault();

@@ -77,7 +77,9 @@ $(document).ready(function() {
                       storageChange.oldValue,
                       storageChange.newValue);
 
+
           var unreadMessages = document.getElementsByClassName("unreadMessage");
+
           for (var i=0; i < unreadMessages.length; i++) {
             var messagePreview = unreadMessages[i].getElementsByClassName("previewline");
 

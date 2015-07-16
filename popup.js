@@ -1,5 +1,5 @@
-$(document).ready(function() {
 
+$(document).ready(function() {
 
     var loadData = function(data) { 
         previousEntries = data["item"];
@@ -8,16 +8,14 @@ $(document).ready(function() {
         for (var i = 0; i < arrayLength; i++) {
             $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ previousEntries[i] +'</div>'); 
         }
-
     }
 
     //load previous entries from chrome storage
     var previousEntries;
     chrome.storage.sync.get(null, loadData);
-    
-
 
     $('.listItemInput').focus(); 
+
     $(document)
     // Add to list
     .on('click', '.addToList', function() {
@@ -38,8 +36,7 @@ $(document).ready(function() {
                 chrome.storage.sync.set({'item': oldItems}, function() {});
                 $('.listItemInput').val('').focus(); //focuses on listItemInput and clears the value
             });
-    });
-   
+    });   
     
     $(document)
     // Remove from list and 
@@ -47,42 +44,54 @@ $(document).ready(function() {
         if( $(this).is(':checked') ){
 
             var parentElem = $(this).parent(); 
-                var string = this.nextSibling.data;
-
+                var string = this.nextSibling.data.trim();
                 var oldItems;
                 chrome.storage.sync.get(null, function(update) {
                     oldItems = update["item"];
                     for (var i = 0; i <= oldItems.length - 1; i++) {
                         if(oldItems[i] === string ) {
-                            console.log(string);
                             oldItems.splice(i, 1);
-                            console.log(oldItems);
                             chrome.storage.sync.set({'item': oldItems}, function() {});
                         } 
                     }
-                    
             });
-
                 parentElem.remove();
-
         }
     });
-
-    // logging this prints 
-    // "[input.item, context: input.item]" 
-    // And within this item I can find the string I need
-    // by opening up nextSibling and then finding data which nested beneath that, 
-    // data is associated with my desired string
-    // But, I cannot figure out how to actually reference this information with Javascript.
-    // Am I going about this the best way? Is there a way dive into this nesting?
-    // ($(this.nextSibling.data.keys));
-
     
     $('.addToListForm').submit( function(e) {
         e.preventDefault();
-        
-        return false; //dont do normal submit... but now we have an event handler e.. 
+        return false;  
     });
+
+
+ chrome.storage.onChanged.addListener(function(changes, namespace) {
+        for (key in changes) {
+          var storageChange = changes[key];
+          flaggedWords = storageChange.newValue;
+          console.log(flaggedWords);
+          console.log('Storage key "%s" in namespace "%s" changed. ' +
+                      'Old value was "%s", new value is "%s".',
+                      key,
+                      namespace,
+                      storageChange.oldValue,
+                      storageChange.newValue);
+
+          var unreadMessages = document.getElementsByClassName("unreadMessage");
+          for (var i=0; i < unreadMessages.length; i++) {
+            var messagePreview = unreadMessages[i].getElementsByClassName("previewline");
+
+            for (var j=0; j < flaggedWords.length; j++) {
+              var messageString = $(messagePreview[0]).text(); 
+              if (messageString.includes(flaggedWords[j])) {
+                $(unreadMessages[i]).hide();
+              }
+            }
+          }
+        }
+      });
+
+
 
 
 });

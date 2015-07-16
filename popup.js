@@ -65,35 +65,27 @@ $(document).ready(function() {
     });
 
 
- chrome.storage.onChanged.addListener(function(changes, namespace) {
-        for (key in changes) {
-          var storageChange = changes[key];
-          flaggedWords = storageChange.newValue;
-          console.log(flaggedWords);
-          console.log('Storage key "%s" in namespace "%s" changed. ' +
-                      'Old value was "%s", new value is "%s".',
-                      key,
-                      namespace,
-                      storageChange.oldValue,
-                      storageChange.newValue);
+     chrome.storage.onChanged.addListener(function(changes, sync) {
+           chrome.storage.sync.get(null, function(data){
+                previousEntries = (data["item"]);
+                var unreadMessages = document.getElementsByClassName("unreadMessage");
+                
+                
+                for (var i=0; i < unreadMessages.length; i++) {
+                    var messagePreview = unreadMessages[i].getElementsByClassName("previewline");
+                    $(unreadMessages[i]).show();
+                    for (var j=0; j < previousEntries.length; j++) {
+                        var messageString = $(messagePreview[0]).text(); 
+                            if (messageString.includes(previousEntries[j])) {
+                                $(unreadMessages[i]).hide();
+                            }
+                    }
+                }
+            });
+            
+     });
 
-
-          var unreadMessages = document.getElementsByClassName("unreadMessage");
-
-          for (var i=0; i < unreadMessages.length; i++) {
-            var messagePreview = unreadMessages[i].getElementsByClassName("previewline");
-
-            for (var j=0; j < flaggedWords.length; j++) {
-              var messageString = $(messagePreview[0]).text(); 
-              if (messageString.includes(flaggedWords[j])) {
-                $(unreadMessages[i]).hide();
-              }
-            }
-          }
-        }
-      });
-
-
+// jquery toggle... 
 
 
 });

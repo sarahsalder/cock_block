@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Cock Block",
+  "name": "CockBlock",
   "description": "This extension deletes unwanted messages from your OkCupid inbox based on message previews.",
   "version": "1.0",
 

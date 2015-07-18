@@ -1,6 +1,6 @@
-
 $(document).ready(function() {
 
+    //load previous entries 
     var loadData = function(data) { 
         previousEntries = data["item"];
         var arrayLength = previousEntries.length;
@@ -10,14 +10,13 @@ $(document).ready(function() {
         }
     }
 
-    //load previous entries from chrome storage
     var previousEntries;
     chrome.storage.sync.get(null, loadData);
-
     $('.listItemInput').focus(); 
 
-    $(document)
+    
     // Add to list
+    $(document)
     .on('click', '.addToList', function() {
         var itemToAdd = $('input[name="listItemInput"]').val().trim(); 
             $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ itemToAdd +'</div>'); 
@@ -38,8 +37,9 @@ $(document).ready(function() {
             });
     });   
     
-    $(document)
-    // Remove from list and 
+    
+    // Remove from list 
+    $(document) 
     .on('change', '.item', function() { 
         if( $(this).is(':checked') ){
 
@@ -59,24 +59,17 @@ $(document).ready(function() {
         }
     });
     
-    $('.addToListForm').submit( function(e) {
-        e.preventDefault();
-        return false;  
-    });
-
-
      chrome.storage.onChanged.addListener(function(changes, sync) {
            chrome.storage.sync.get(null, function(data){
                 previousEntries = (data["item"]);
                 var unreadMessages = document.getElementsByClassName("unreadMessage");
-                
                 
                 for (var i=0; i < unreadMessages.length; i++) {
                     var messagePreview = unreadMessages[i].getElementsByClassName("previewline");
                     $(unreadMessages[i]).show();
                     for (var j=0; j < previousEntries.length; j++) {
                         var messageString = $(messagePreview[0]).text(); 
-                            if (messageString.includes(previousEntries[j])) {
+                            if (messageString.toLowerCase().includes(previousEntries[j].toLowerCase())) {
                                 $(unreadMessages[i]).hide();
                             }
                     }
@@ -84,8 +77,6 @@ $(document).ready(function() {
             });
             
      });
-
-// jquery toggle... 
 
 
 });

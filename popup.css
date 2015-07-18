@@ -1,10 +1,28 @@
+body {
+    min-width:150px;
+    text-align: left;
+    background: rgb(255, 235, 242);
+    font-family: 'Raleway', sans-serif;
+}
 
 input[type="text"] {
-    background: white;
+    
     border: 1px solid #ffe07c;
     height: 1.8em;
-    width: 100%;
+    width: 50%;
+    background-color: rgb(152, 183, 246);
+    text-align: left;
+    border-radius: 10px;
+    margin-bottom: .2em;
     
+}
+
+.header {
+    padding-top: .1em;
+    padding-bottom: .2em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: rgb(0, 63, 167);
 }
 
 input[type="text"]:focus {
@@ -12,15 +30,10 @@ input[type="text"]:focus {
     border: 1px solid #f69a39;    
 }
 
-.addToListForm {
- 
-}
-
 .addToListForm label {
   display: none;
 }
 
-.input {
-    background: none;
-
+div.input.item {
+    float: right;
 }

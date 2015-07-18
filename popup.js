@@ -6,7 +6,7 @@ $(document).ready(function() {
         var arrayLength = previousEntries.length;
  
         for (var i = 0; i < arrayLength; i++) {
-            $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ previousEntries[i] +'</div>'); 
+            $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item entries"/> '+ previousEntries[i] +'</div>'); 
         }
     }
 
@@ -19,7 +19,7 @@ $(document).ready(function() {
     $(document)
     .on('click', '.addToList', function() {
         var itemToAdd = $('input[name="listItemInput"]').val().trim(); 
-            $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item"/> '+ itemToAdd +'</div>'); 
+            $('.listItems').append('<div class="input"><input type="checkbox" name="item" class="item entries"/> '+ itemToAdd +'</div>'); 
             
         //if storage 'item' is undefined, set it to an empty array
         chrome.storage.sync.get(null, function(data) {
@@ -77,6 +77,7 @@ $(document).ready(function() {
             });
             
      });
+
 
 
 });
